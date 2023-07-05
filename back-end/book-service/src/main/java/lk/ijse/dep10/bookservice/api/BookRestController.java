@@ -26,22 +26,24 @@ public class BookRestController {
         bookService.saveBook(bookDTO);
     }
 
-    @PatchMapping("/{isbn}")
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBook(@RequestParam String isbn,@RequestBody @Validated BookDTO bookDTO){
+    @PatchMapping("/{isbn}")
+    public void updateBook(@PathVariable String isbn,@RequestBody @Validated BookDTO bookDTO){
         bookDTO.setIsbn(isbn);
         bookService.updateBook(bookDTO);
-    }
 
-    @DeleteMapping("/{isbn}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeBook(@RequestParam String isbn){
-        bookService.deleteBook(isbn);
     }
 
     @GetMapping("/{isbn}")
     public BookDTO getBook(@RequestParam String isbn){
         return bookService.getBook(isbn);
+    }
+
+    @DeleteMapping("/{isbn}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeBook(@PathVariable String isbn){
+        bookService.deleteBook(isbn);
     }
 
     @GetMapping
