@@ -6,11 +6,13 @@ import lk.ijse.dep10.bookservice.repository.BookRepository;
 import lk.ijse.dep10.bookservice.service.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final ModelMapper mapper;
@@ -23,7 +25,7 @@ public class BookServiceImpl implements BookService {
     public void saveBook(BookDTO book) {
         if (bookRepository.existsById(book.getIsbn()) )
             throw new ResponseStatusException(HttpStatus.CONFLICT,"The isbn : "+book.getIsbn()+" already exists");
-        bookRepository.save(mapper.map(book, Book.class));
+            bookRepository.save(mapper.map(book, Book.class));
     }
 
     @Override
@@ -51,6 +53,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDTO> findBooks(String query) {
+        query="%"+query+"%";
         return bookRepository.findBooksByIsbnLikeOrTitleLikeOrAuthorLike(query,query,query)
                 .stream().map(book -> mapper.map(book,BookDTO.class)).collect(Collectors.toList());
     }
