@@ -8,6 +8,6 @@ public interface BookService {
     void saveBook(BookDTO book);
     void updateBook(BookDTO book);
     void deleteBook(String isbn);
-    void getBook(String isbn);
+    BookDTO getBook(String isbn);
     List<BookDTO> findBooks(String query);
 }
